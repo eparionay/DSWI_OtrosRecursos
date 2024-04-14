@@ -16,7 +16,8 @@ ALTER procedure usp_alumno_crud
 @codigo int,
 @nombres varchar(30),
 @apellidos varchar(60),
-@documento varchar(8)
+@documento varchar(8),
+@carrera int
 as
 begin
 set NOCOUNT ON 
@@ -42,7 +43,9 @@ set NOCOUNT ON
 
 	if @indicador = 'registrar'
 	begin
-		insert into Alumno(nombres, apellidos, documento) values (@nombres, @apellidos, @documento)
+		insert into Alumno(nombres, apellidos, documento, carrera, fechaRegistro)
+		values (@nombres, @apellidos, @documento, @carrera, GETDATE())
+		select 1
 	end
 
 
@@ -94,13 +97,17 @@ go
 	)
 
 	insert into carrera(nombre) values ('Ingles')
+	go
 	insert into carrera(nombre) values ('Computacion E Informatica')
+	go
 
 	select * from Alumno
+	go
 
 	update ALumno set carrera= 1 
+	go
 	update Alumno set carrera= 2 where codigo in (3, 5)
-
+	go
 
 	create procedure usp_carrera_select
 	as
@@ -108,4 +115,8 @@ go
 
 	select codigo, nombre from carrera
 	end
+	go
+
+
+	select * from Alumno
 	go
